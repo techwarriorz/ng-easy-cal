@@ -1,0 +1,91 @@
+ <div ng-show="popover.show"
+	     class="ez-popover"
+         ng-style="{'position': 'fixed',
+                    'left': xPopPosition,
+                    'top': yPopPosition + 15,
+                    'z-index': 10000,
+                    'width': defaultPopoverWidth,
+                    'height': defaultPopoverHeight,
+                    'background-color': defaultPopoverBackgroundColor,
+                    'color': defaultPopoverTextColor,
+                    'border': defaultPopoverBorder,
+				    'font-family': ezFont
+                   }">
+	 	<div class="ez-close-button">
+	 		<span ng-click="hidePopover()"> X </span>
+	 	</div>
+	 
+	 	<div class="ez-featured-image" ng-show="popover.event.image">
+	 		<img ng-src="{{popover.event.image}}">
+	 	</div>
+	 	<div class="ez-popover-title">
+	 		<strong>{{popover.event.title}}</strong>
+	 	</div>
+	 	<div class="ez-popover-times">
+	 	<span>{{formatDate(popover.event.startDate)}} - {{formatDate(popover.event.endDate)}}</span>
+	    </div>
+	 	<div class="ez-popover-description">
+	 		<p>{{popover.event.description}}</p>
+	 	</div>
+</div>
+
+<div class="ez-options"
+	 ng-style="{'width': ezWidth,
+			    'font-family': ezFont}"> 
+    <span ng-click="monthBackward()">< Previous </span>
+    <span>{{currentDate}}</span>
+    <span ng-click="monthForward()"> Next ></span>
+</div>
+
+<div ng-style="{'height': ezHeight + 'px',
+                'width':  ezWidth + 'px',
+               'background-color': '#FFF',
+			   'font-family': ezFont
+               }"
+	
+     >
+    
+    <div ng-style="{'width': dateWidth,
+                    'display': 'inline-table',
+                    'text-align': 'center',
+                    'border': defaultBorderColor,
+                    'background-color': defaultHeaderBackgroundColor,
+                    'color': defaultHeaderTextColor,
+				    'font-size': '10px'}"
+         ng-repeat="title in headingDays">{{title}}</div>
+    
+    
+    <div ng-style="{'height': dateHeight,
+                    'width':  dateWidth,
+                    'border': defaultBorderColor
+                }"
+		 class="ez-calendar-day"
+         ng-class="{'active-date': day.isToday,
+                    'out-of-month': day.nextMonth || day.previousMonth}"
+         ng-repeat="day in calendarDays"
+		 ng-click="changeMonth(day)">
+		<div class="ez-day-container">
+        <div class="ez-day-number">
+			<span>{{day.dateNumber}}</span> 
+		</div>
+        <ul class="ez-event-list">
+        
+            <li class="ez-event-list-item"
+			  ng-repeat="event in day.events"
+              ng-style="{'background-color': event.backgroundColor,
+                         'color': defaultEventTextColor}"
+              ng-click="showPopoverClick(event, $event)"
+			  ng-mouseenter="showPopoverHover(event, $event)"
+			  ng-mouseleave="hidePopoverHover()"
+				  ><span ng-show="!event.multiDay">{{event.formattedStart}}-{{event.title}} </span>
+                
+            </li>
+        </ul>
+			</div>
+        
+           
+    </div>
+    
+</div>
+    
+   
